@@ -7,8 +7,11 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import lemon.api.exception.ResourceNotFoundException;
+import lemon.api.model.BtcWallet;
 import lemon.api.model.User;
+import lemon.api.repository.BtcWalletRepository;
 import lemon.api.repository.UserRepository;
+import lemon.api.dto.UserWithWallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,10 @@ import org.springframework.stereotype.Service;
 public class UserService implements IUserService{
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private BtcWalletRepository btcWalletRepository;
+	@Autowired
+	private IBtcWalletService btcWalletService;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -24,14 +31,16 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public User getUserById(Long userId) throws ResourceNotFoundException {
+	public UserWithWallet getUserById(Long userId) throws ResourceNotFoundException {
 		User user = new User();
+		BtcWallet btcWallet = new BtcWallet();
 		try {
-			user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+			user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found given id: " + userId));
+			btcWallet = btcWalletRepository.getWalletByUserId(user.getId());
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		}
-		return user;
+		return new UserWithWallet(user, btcWallet);
 	}
 
 	@Override
@@ -49,7 +58,14 @@ public class UserService implements IUserService{
 		if (exists.size() > 0) {
 			throw new Exception("Alias and/or email are in use");
 		}
-		return userRepository.save(user);
+
+		User newUser = userRepository.save(user);
+
+		BtcWallet btcWallet = new BtcWallet();
+		btcWallet.setUser(newUser.getId());
+		btcWalletService.saveBtcWallet(btcWallet);
+
+		return newUser;
 	}
 
 	@Override

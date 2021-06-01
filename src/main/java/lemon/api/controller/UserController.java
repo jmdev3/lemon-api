@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import lemon.api.dto.UserWithWallet;
 import lemon.api.model.User;
 import lemon.api.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,9 @@ public class UserController {
   }
 
   @GetMapping("/users/{id}")
-  public ResponseEntity<User> getUsersById(@PathVariable(value = "id") Long userId)
+  public ResponseEntity<UserWithWallet> getUsersById(@PathVariable(value = "id") Long userId)
       throws ResourceNotFoundException {
-    User user = userService.getUserById(userId);
+    UserWithWallet user = userService.getUserById(userId);
     return ResponseEntity.ok().body(user);
   }
 

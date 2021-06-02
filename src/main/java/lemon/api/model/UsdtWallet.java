@@ -6,10 +6,10 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-@Entity(name = "ars_wallet")
-@Table(name = "ars_wallet")
+@Entity(name = "usdt_wallet")
+@Table(name = "usdt_wallet")
 @EntityListeners(AuditingEntityListener.class)
-public class ArsWallet {
+public class UsdtWallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

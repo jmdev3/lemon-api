@@ -13,7 +13,7 @@ List<User> getAllUsers();
 
 UserWithWallet getUserById(Long userId) throws ResourceNotFoundException;
 
-List<User> getByAliasOrEmail(String alias, String email);
+List<User> findByAliasOrEmail(String alias, String email);
 
 User saveUser(User user) throws Exception;
 

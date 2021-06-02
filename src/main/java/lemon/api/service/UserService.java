@@ -9,9 +9,11 @@ import javax.transaction.Transactional;
 import lemon.api.exception.ResourceNotFoundException;
 import lemon.api.model.ArsWallet;
 import lemon.api.model.BtcWallet;
+import lemon.api.model.UsdtWallet;
 import lemon.api.model.User;
 import lemon.api.repository.ArsWalletRepository;
 import lemon.api.repository.BtcWalletRepository;
+import lemon.api.repository.UsdtWalletRepository;
 import lemon.api.repository.UserRepository;
 import lemon.api.dto.UserWithWallet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,10 @@ public class UserService implements IUserService {
 	private ArsWalletRepository arsWalletRepository;
 	@Autowired
 	private IArsWalletService arsWalletService;
+	@Autowired
+	private UsdtWalletRepository usdtWalletRepository;
+	@Autowired
+	private UsdtWalletService usdtWalletService;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -41,19 +47,22 @@ public class UserService implements IUserService {
 		User user = new User();
 		BtcWallet btcWallet = new BtcWallet();
 		ArsWallet arsWallet = new ArsWallet();
+		UsdtWallet usdtWallet = new UsdtWallet();
 		try {
 			user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found given id: " + userId));
-			btcWallet = btcWalletRepository.getWalletByUserId(user.getId());
-			arsWallet = arsWalletRepository.getWalletByUserId(user.getId());
+			Long userIdVar = user.getId();
+			btcWallet = btcWalletRepository.findFirstByUser(userIdVar);
+			arsWallet = arsWalletRepository.findFirstByUser(userIdVar);
+			usdtWallet = usdtWalletRepository.findFirstByUser(userIdVar);
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		}
-		return new UserWithWallet(user, btcWallet, arsWallet);
+		return new UserWithWallet(user, btcWallet, arsWallet, usdtWallet);
 	}
 
 	@Override
-	public List<User> getByAliasOrEmail(String alias, String email) {
-		return userRepository.getUsersByAliasOrEmail(alias, email);
+	public List<User> findByAliasOrEmail(String alias, String email) {
+		return userRepository.findByAliasOrEmail(alias, email);
 	}
 
 	@Override
@@ -61,22 +70,27 @@ public class UserService implements IUserService {
 		String alias = user.getAlias();
 		String email = user.getEmail();
 
-		List<User> exists = userRepository.getUsersByAliasOrEmail(alias, email);
+		List<User> exists = userRepository.findByAliasOrEmail(alias, email);
 
 		if (exists.size() > 0) {
 			throw new Exception("Alias and/or email are in use");
 		}
 
 		User newUser = userRepository.save(user);
+		Long userIdVar = user.getId();
 
 		BtcWallet btcWallet = new BtcWallet();
-		btcWallet.setUser(newUser.getId());
-		btcWalletService.saveBtcWallet(btcWallet);
+		btcWallet.setUser(userIdVar);
+		btcWalletService.saveWallet(btcWallet);
 
 		ArsWallet arsWallet = new ArsWallet();
-		arsWallet.setUser(newUser.getId());
-		arsWalletService.saveArsWallet(arsWallet);
+		arsWallet.setUser(userIdVar);
+		arsWalletService.saveWallet(arsWallet);
 
+		UsdtWallet usdtWallet = new UsdtWallet();
+		usdtWallet.setUser(userIdVar);
+		usdtWalletService.saveWallet(usdtWallet);
+		
 		return newUser;
 	}
 
@@ -86,7 +100,7 @@ public class UserService implements IUserService {
 		String alias = userDet.getAlias();
 		String email = userDet.getEmail();
 
-		List<User> exists = userRepository.getUsersByAliasOrEmail(alias, email);
+		List<User> exists = userRepository.findByAliasOrEmail(alias, email);
 
 		if (exists.size() > 0) {
 			throw new Exception("Alias and/or email are in use");

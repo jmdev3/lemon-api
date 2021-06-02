@@ -16,7 +16,7 @@ public class BtcWalletService implements IBtcWalletService {
 	private BtcWalletRepository btcWalletRepository;
 
 	@Override
-	public BtcWallet saveBtcWallet(BtcWallet btcWallet) throws Exception {
+	public BtcWallet saveWallet(BtcWallet btcWallet) throws Exception {
 		return btcWalletRepository.save(btcWallet);
 	}
 

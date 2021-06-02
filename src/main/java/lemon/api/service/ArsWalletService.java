@@ -16,7 +16,7 @@ public class ArsWalletService implements IArsWalletService {
 	private ArsWalletRepository arsWalletRepository;
 
 	@Override
-	public ArsWallet saveArsWallet(ArsWallet arsWallet) throws Exception {
+	public ArsWallet saveWallet(ArsWallet arsWallet) throws Exception {
 		return arsWalletRepository.save(arsWallet);
 	}
 

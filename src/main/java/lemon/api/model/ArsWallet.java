@@ -1,14 +1,15 @@
 package lemon.api.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import javax.persistence.*;
 
-@Entity(name = "btc_wallet")
-@Table(name = "btc_wallet")
+@Entity(name = "ars_wallet")
+@Table(name = "ars_wallet")
 @EntityListeners(AuditingEntityListener.class)
-public class BtcWallet {
+public class ArsWallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +19,7 @@ public class BtcWallet {
     private long user;
 
     @Column(name = "balance", nullable = false)
-    private BigDecimal balance = new BigDecimal(0.00000000);
+    private BigDecimal balance = new BigDecimal(0.00);
 
     public long getWalletId() {
         return walletid;
@@ -35,7 +36,7 @@ public class BtcWallet {
     }
 
     public String getBalance() { return new DecimalFormat("#0.00000000").format(balance); }
-    public BigDecimal getBalanceUnFormatted() { return balance; }
+    public BigDecimal getBalanceUnformatted() { return balance; }
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }

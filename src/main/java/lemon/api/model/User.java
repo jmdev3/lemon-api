@@ -65,15 +65,4 @@ public class User {
     public void setAlias(String alias) {
         this.alias = alias;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", alias=" + alias +
-                '}';
-    }
 }

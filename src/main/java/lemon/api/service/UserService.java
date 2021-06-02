@@ -90,7 +90,7 @@ public class UserService implements IUserService {
 		UsdtWallet usdtWallet = new UsdtWallet();
 		usdtWallet.setUser(userIdVar);
 		usdtWalletService.saveWallet(usdtWallet);
-		
+
 		return newUser;
 	}
 

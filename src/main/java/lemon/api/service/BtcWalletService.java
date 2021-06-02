@@ -25,7 +25,7 @@ public class BtcWalletService implements IBtcWalletService {
 		BtcWallet btcWallet = new BtcWallet();
 		try {
 			btcWallet = btcWalletRepository.findById(btcWalletId).orElseThrow(() -> new ResourceNotFoundException("Wallet not found given: " + btcWalletId));
-			btcWallet.setBalance(btcWallet.getBalanceUnFormatted().add(balance));
+			btcWallet.setBalance(btcWallet.getBalance().add(balance));
 			btcWallet = btcWalletRepository.save(btcWallet);
 		} catch (ResourceNotFoundException e) {
 			throw e;

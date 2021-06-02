@@ -34,8 +34,7 @@ public class BtcWallet {
         this.user = user;
     }
 
-    public String getBalance() { return new DecimalFormat("#0.00000000").format(balance); }
-    public BigDecimal getBalanceUnFormatted() { return balance; }
+    public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }

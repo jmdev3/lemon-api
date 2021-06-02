@@ -35,8 +35,7 @@ public class UsdtWallet {
         this.user = user;
     }
 
-    public String getBalance() { return new DecimalFormat("#0.00").format(balance); }
-    public BigDecimal getBalanceUnformatted() { return balance; }
+    public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }

@@ -25,7 +25,7 @@ public class UsdtWalletService implements IUsdtWalletService {
 		UsdtWallet usdtWallet = new UsdtWallet();
 		try {
 			usdtWallet = usdtWalletRepository.findById(walletId).orElseThrow(() -> new ResourceNotFoundException("Wallet not found given: " + walletId));
-			usdtWallet.setBalance(usdtWallet.getBalanceUnformatted().add(balance));
+			usdtWallet.setBalance(usdtWallet.getBalance().add(balance));
 			usdtWallet = usdtWalletRepository.save(usdtWallet);
 		} catch (ResourceNotFoundException e) {
 			throw e;

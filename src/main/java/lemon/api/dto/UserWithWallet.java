@@ -1,41 +1,40 @@
 package lemon.api.dto;
-
-import lemon.api.model.ArsWallet;
-import lemon.api.model.UsdtWallet;
 import lemon.api.model.User;
-import lemon.api.model.BtcWallet;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 public class UserWithWallet {
 
     private User user;
-    private BtcWallet btcWallet;
-    private ArsWallet arsWallet;
-    private UsdtWallet usdtWallet;
+    private BigDecimal btc;
+    private BigDecimal ars;
+    private BigDecimal usdt;
 
-    public UserWithWallet(User user, BtcWallet btcWallet, ArsWallet arsWallet, UsdtWallet usdtWallet) {
+    public UserWithWallet(User user, BigDecimal btc, BigDecimal ars, BigDecimal usdt) {
         this.user = user;
-        this.btcWallet = btcWallet;
-        this.arsWallet = arsWallet;
-        this.usdtWallet = usdtWallet;
+        this.btc = btc;
+        this.ars = ars;
+        this.usdt = usdt;
     }
 
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 
-    public BtcWallet getBtcWallet() { return btcWallet; }
-    public void setBtcWallet(BtcWallet btcWallet) { this.btcWallet = btcWallet; }
-
-    public ArsWallet getArsWallet() {
-        return arsWallet;
+    public String getBtc() {
+        return new DecimalFormat("#0.00000000").format(btc);
     }
-    public void setArsWallet(ArsWallet arsWallet) {
-        this.arsWallet = arsWallet;
+    public void setBtc(BigDecimal btc) {
+        this.btc = btc;
     }
 
-    public UsdtWallet getUsdtWallet() {
-        return usdtWallet;
+    public String getArs() {
+        return new DecimalFormat("#0.00").format(ars);
     }
-    public void setUsdtWallet(UsdtWallet usdtWallet) {
-        this.usdtWallet = usdtWallet;
+    public void setArs(BigDecimal ars) { this.ars = ars; }
+
+    public String getUsdt() {
+        return new DecimalFormat("#0.00").format(usdt);
     }
+    public void setUsdt(BigDecimal usdt) { this.usdt = usdt; }
 }

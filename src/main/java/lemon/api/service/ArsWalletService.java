@@ -25,7 +25,7 @@ public class ArsWalletService implements IArsWalletService {
 		ArsWallet arsWallet = new ArsWallet();
 		try {
 			arsWallet = arsWalletRepository.findById(btcWalletId).orElseThrow(() -> new ResourceNotFoundException("Wallet not found given: " + btcWalletId));
-			arsWallet.setBalance(arsWallet.getBalanceUnformatted().add(balance));
+			arsWallet.setBalance(arsWallet.getBalance().add(balance));
 			arsWallet = arsWalletRepository.save(arsWallet);
 		} catch (ResourceNotFoundException e) {
 			throw e;

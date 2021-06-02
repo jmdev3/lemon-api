@@ -57,7 +57,7 @@ public class UserService implements IUserService {
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		}
-		return new UserWithWallet(user, btcWallet, arsWallet, usdtWallet);
+		return new UserWithWallet(user, btcWallet.getBalance(), arsWallet.getBalance(), usdtWallet.getBalance());
 	}
 
 	@Override

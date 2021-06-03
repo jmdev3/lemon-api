@@ -1,12 +1,12 @@
-#Lemon Api
+# Lemon Api
 
-##Stack
+## Stack
 
 - DOCKER
 - mysql
 - java
 
-##Command
+## Command
 
 Execute the following command on the terminal:
 

@@ -2,7 +2,6 @@ package lemon.api.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import javax.persistence.*;
 
 @Entity(name = "btc_wallet")

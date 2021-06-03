@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 
 public interface IUsdtWalletService {
     UsdtWallet saveWallet(UsdtWallet btcWallet) throws Exception;
-    UsdtWallet updateBalance(Long walletId, BigDecimal balance) throws Exception, ResourceNotFoundException;
+    UsdtWallet updateBalance(Long userId, BigDecimal balance, String txType) throws Exception, ResourceNotFoundException;
 }

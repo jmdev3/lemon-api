@@ -4,7 +4,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 @Entity(name = "usdt_wallet")
 @Table(name = "usdt_wallet")

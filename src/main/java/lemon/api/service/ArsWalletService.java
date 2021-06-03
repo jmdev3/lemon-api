@@ -21,15 +21,30 @@ public class ArsWalletService implements IArsWalletService {
 	}
 
 	@Override
-	public ArsWallet updateBalance(Long btcWalletId, BigDecimal balance) throws Exception, ResourceNotFoundException {
-		ArsWallet arsWallet = new ArsWallet();
+	public ArsWallet updateBalance(Long userId, BigDecimal ammount, String txType) throws Exception, ResourceNotFoundException {
 		try {
-			arsWallet = arsWalletRepository.findById(btcWalletId).orElseThrow(() -> new ResourceNotFoundException("Wallet not found given: " + btcWalletId));
-			arsWallet.setBalance(arsWallet.getBalance().add(balance));
-			arsWallet = arsWalletRepository.save(arsWallet);
+			ArsWallet arsWallet = arsWalletRepository.findFirstByUser(userId);
+
+			if (arsWallet == null) {
+				throw new ResourceNotFoundException("User not found given: " + userId);
+			}
+
+			if (txType.equalsIgnoreCase("DEPOSIT")) {
+				arsWallet.setBalance(arsWallet.getBalance().add(ammount));
+				arsWallet = arsWalletRepository.save(arsWallet);
+				return arsWallet;
+			} else if (txType.equalsIgnoreCase("EXTRACTION")) {
+				if (arsWallet.getBalance().compareTo(ammount) < 0) {
+					throw new Exception("Insufficient found");
+				}
+				arsWallet.setBalance(arsWallet.getBalance().add(ammount));
+				arsWallet = arsWalletRepository.save(arsWallet);
+				return arsWallet;
+			}
+
+			throw new Exception("Unsupported transaction");
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		}
-		return arsWallet;
 	}
 }

@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 
 public interface IBtcWalletService {
     BtcWallet saveWallet(BtcWallet btcWallet) throws Exception;
-    BtcWallet updateBalance(Long btcWalletId, BigDecimal balance) throws Exception, ResourceNotFoundException;
+    BtcWallet updateBalance(Long userId, BigDecimal balance, String txType) throws Exception, ResourceNotFoundException;
 }

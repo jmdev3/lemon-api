@@ -21,15 +21,30 @@ public class UsdtWalletService implements IUsdtWalletService {
 	}
 
 	@Override
-	public UsdtWallet updateBalance(Long walletId, BigDecimal balance) throws Exception, ResourceNotFoundException {
-		UsdtWallet usdtWallet = new UsdtWallet();
+	public UsdtWallet updateBalance(Long userId, BigDecimal balance, String txType) throws Exception, ResourceNotFoundException {
 		try {
-			usdtWallet = usdtWalletRepository.findById(walletId).orElseThrow(() -> new ResourceNotFoundException("Wallet not found given: " + walletId));
-			usdtWallet.setBalance(usdtWallet.getBalance().add(balance));
-			usdtWallet = usdtWalletRepository.save(usdtWallet);
+			UsdtWallet usdtWallet = usdtWalletRepository.findFirstByUser(userId);
+
+			if (usdtWallet == null) {
+				throw new ResourceNotFoundException("User not found given: " + userId);
+			}
+
+			if (txType.equalsIgnoreCase("DEPOSIT")) {
+				usdtWallet.setBalance(usdtWallet.getBalance().add(balance));
+				usdtWallet = usdtWalletRepository.save(usdtWallet);
+				return usdtWallet;
+			} else if (txType.equalsIgnoreCase("EXTRACTION")) {
+				if (usdtWallet.getBalance().compareTo(balance) < 0) {
+					throw new Exception("Insufficient found");
+				}
+				usdtWallet.setBalance(usdtWallet.getBalance().add(balance));
+				usdtWallet = usdtWalletRepository.save(usdtWallet);
+				return usdtWallet;
+			}
+
+			throw new Exception("Unsupported transaction");
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		}
-		return usdtWallet;
 	}
 }

@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 
 public interface IArsWalletService {
     ArsWallet saveWallet(ArsWallet btcWallet) throws Exception;
-    ArsWallet updateBalance(Long btcWalletId, BigDecimal balance) throws Exception, ResourceNotFoundException;
+    ArsWallet updateBalance(Long userId, BigDecimal ammount, String txType) throws Exception, ResourceNotFoundException;
 }

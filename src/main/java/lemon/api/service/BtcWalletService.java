@@ -21,15 +21,29 @@ public class BtcWalletService implements IBtcWalletService {
 	}
 
 	@Override
-	public BtcWallet updateBalance(Long btcWalletId, BigDecimal balance) throws Exception, ResourceNotFoundException {
-		BtcWallet btcWallet = new BtcWallet();
+	public BtcWallet updateBalance(Long userId, BigDecimal amount, String txType) throws Exception, ResourceNotFoundException {
 		try {
-			btcWallet = btcWalletRepository.findById(btcWalletId).orElseThrow(() -> new ResourceNotFoundException("Wallet not found given: " + btcWalletId));
-			btcWallet.setBalance(btcWallet.getBalance().add(balance));
-			btcWallet = btcWalletRepository.save(btcWallet);
+			BtcWallet btcWallet = btcWalletRepository.findFirstByUser(userId);
+			if (btcWallet == null) {
+				throw new ResourceNotFoundException("User not found given: " + userId);
+			}
+			if (txType.equalsIgnoreCase("DEPOSIT")) {
+				BigDecimal newBalance = btcWallet.getBalance().add(amount);
+				btcWallet.setBalance(btcWallet.getBalance().add(amount));
+				btcWallet = btcWalletRepository.save(btcWallet);
+				return btcWallet;
+			} else if (txType.equalsIgnoreCase("EXTRACTION")) {
+				if (btcWallet.getBalance().compareTo(amount) < 0) {
+					throw new Exception("Insufficient found");
+				}
+				btcWallet.setBalance(btcWallet.getBalance().subtract(amount));
+				btcWallet = btcWalletRepository.save(btcWallet);
+				return btcWallet;
+			}
+
+			throw new Exception("Unsupported transaction");
 		} catch (ResourceNotFoundException e) {
 			throw e;
 		}
-		return btcWallet;
 	}
 }

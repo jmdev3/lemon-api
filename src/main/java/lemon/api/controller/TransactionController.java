@@ -31,7 +31,7 @@ public class TransactionController {
       throws ResourceNotFoundException {
     Pageable pageable = PageRequest.of(offset, limit);
     List<Transaction> transactions;
-    
+
     if (type != null && wallet != null) {
       transactions = transactionService.findByUserAndTypeAndWallet(userId, type, wallet, pageable);
     } else if (type != null) {

@@ -3,8 +3,8 @@
 ## Stack
 
 - DOCKER
-- mysql
-- java
+- MYSQL
+- JAVA (MAVEN - SPRING BOOT - JPA)
 
 ## Command
 
@@ -23,18 +23,11 @@ create user 'admin' identified by 'lemon';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%';
 exit
 ```
-- EN IDE // IMPORTAR DB DUMP ?
 
-create database lemon_db;
-USE users_db;
-CREATE TABLE users
-(
-ID DECIMAL(10, 0) NOT NULL
-, FIRST_NAME VARCHAR(25) NOT NULL
-, LAST_NAME VARCHAR(25) NOT NULL
-, EMAIL_ADDRESS VARCHAR(50) NOT NULL
-, ALIAS VARCHAR(50) NOT NULL
-, CONSTRAINT PRIMARY KEY ( ID ) );
+Then:
+
+1. create database lemon_db;
+2. import dump 
 
 ```
 docker network create --driver bridge lemon-net

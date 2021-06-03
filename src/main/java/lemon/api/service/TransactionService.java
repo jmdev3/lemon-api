@@ -43,17 +43,33 @@ public class TransactionService implements ITransactionService {
 
 			if (wallet.equalsIgnoreCase("ARS")) {
 				arsWalletService.updateBalance(userId, amount, txType);
+				int decimals = this.getNumberOfDecimalPlaces(amount);
+				if (decimals != 2) {
+					throw new Exception("Invalid amount format");
+				}
 				return transactionRepository.save(transaction);
 			} else if (wallet.equalsIgnoreCase("USDT")) {
 				usdtWalletService.updateBalance(userId, amount, txType);
+				int decimals = this.getNumberOfDecimalPlaces(amount);
+				if (decimals != 2) {
+					throw new Exception("Invalid amount format");
+				}
 				return transactionRepository.save(transaction);
 			} else if (wallet.equalsIgnoreCase("BTC")) {
 				btcWalletService.updateBalance(userId, amount, txType);
+				int decimals = this.getNumberOfDecimalPlaces(amount);
+				if (decimals != 8) {
+					throw new Exception("Invalid amount format");
+				}
 				return transactionRepository.save(transaction);
 			}
 			throw new Exception("Unsupported wallet given: " + wallet);
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	private int getNumberOfDecimalPlaces(BigDecimal amount) {
+		return Math.max(0, amount.scale());
 	}
 }

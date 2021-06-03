@@ -1,5 +1,6 @@
 package lemon.api.controller;
 
+import lemon.api.dto.TransactionDto;
 import lemon.api.exception.ResourceNotFoundException;
 import lemon.api.model.Transaction;
 import lemon.api.service.ITransactionService;
@@ -25,9 +26,9 @@ public class TransactionController {
   }
 
   @PostMapping("/transaction/create")
-  public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody Transaction transaction)
+  public ResponseEntity<TransactionDto> createTransaction(@Valid @RequestBody Transaction transaction)
       throws ResourceNotFoundException, Exception {
     Transaction transactionSaved = transactionService.createTransaction(transaction);
-    return ResponseEntity.ok(transactionSaved);
+    return ResponseEntity.ok(new TransactionDto(transactionSaved));
   }
 }

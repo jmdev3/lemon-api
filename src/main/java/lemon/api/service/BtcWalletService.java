@@ -28,8 +28,6 @@ public class BtcWalletService implements IBtcWalletService {
 				throw new ResourceNotFoundException("User not found given: " + userId);
 			}
 			if (txType.equalsIgnoreCase("DEPOSIT")) {
-				BigDecimal newBalance = btcWallet.getBalance().add(amount);
-				System.out.println(newBalance.toString());
 				btcWallet.setBalance(btcWallet.getBalance().add(amount));
 				btcWallet = btcWalletRepository.save(btcWallet);
 				return btcWallet;

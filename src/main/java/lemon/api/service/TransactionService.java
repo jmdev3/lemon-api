@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class TransactionService implements ITransactionService {
 	@Autowired
 	private UsdtWalletService usdtWalletService;
 
-	public List<Transaction> findByUser(Long userId) {
-		return transactionRepository.findByUser(userId);
+	public List<Transaction> findByUser(Long userId, Pageable pageable) {
+		return transactionRepository.findByUser(userId, pageable);
 	}
 
 	public Transaction createTransaction(Transaction transaction) throws Exception, ResourceNotFoundException {

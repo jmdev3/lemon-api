@@ -7,5 +7,8 @@ import java.util.List;
 
 public interface ITransactionService {
     List<Transaction> findByUser(Long userId, Pageable pageable);
+    List<Transaction> findByUserAndType(Long userId, String type, Pageable pageable);
+    List<Transaction> findByUserAndWallet(Long userId, String wallet, Pageable pageable);
+    List<Transaction> findByUserAndTypeAndWallet(Long userId, String type, String wallet, Pageable pageable);
     Transaction createTransaction(Transaction transaction) throws Exception, ResourceNotFoundException;
 }

@@ -28,11 +28,6 @@ public class UserController {
   @Autowired
   private IUserService userService;
 
-  @GetMapping("/users")
-  public List<User> getAllUsers() {
-    return userService.getAllUsers();
-  }
-
   @GetMapping("/users/{id}")
   public ResponseEntity<UserWithWallet> getUsersById(@PathVariable(value = "id") Long userId)
       throws ResourceNotFoundException {

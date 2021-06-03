@@ -34,6 +34,15 @@ public class TransactionService implements ITransactionService {
 	public List<Transaction> findByUser(Long userId, Pageable pageable) {
 		return transactionRepository.findByUser(userId, pageable);
 	}
+	public List<Transaction> findByUserAndType(Long userId, String type, Pageable pageable) {
+		return transactionRepository.findByUserAndType(userId, type, pageable);
+	}
+	public List<Transaction> findByUserAndWallet(Long userId, String wallet, Pageable pageable) {
+		return transactionRepository.findByUserAndWallet(userId, wallet, pageable);
+	}
+	public List<Transaction> findByUserAndTypeAndWallet(Long userId, String type, String wallet, Pageable pageable) {
+		return transactionRepository.findByUserAndTypeAndWallet(userId, type, wallet, pageable);
+	}
 
 	public Transaction createTransaction(Transaction transaction) throws Exception, ResourceNotFoundException {
 		try {

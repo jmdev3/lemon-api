@@ -37,7 +37,7 @@ public class UsdtWalletService implements IUsdtWalletService {
 				if (usdtWallet.getBalance().compareTo(balance) < 0) {
 					throw new Exception("Insufficient found");
 				}
-				usdtWallet.setBalance(usdtWallet.getBalance().add(balance));
+				usdtWallet.setBalance(usdtWallet.getBalance().subtract(balance));
 				usdtWallet = usdtWalletRepository.save(usdtWallet);
 				return usdtWallet;
 			}

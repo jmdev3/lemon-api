@@ -37,7 +37,7 @@ public class ArsWalletService implements IArsWalletService {
 				if (arsWallet.getBalance().compareTo(ammount) < 0) {
 					throw new Exception("Insufficient found");
 				}
-				arsWallet.setBalance(arsWallet.getBalance().add(ammount));
+				arsWallet.setBalance(arsWallet.getBalance().subtract(ammount));
 				arsWallet = arsWalletRepository.save(arsWallet);
 				return arsWallet;
 			}

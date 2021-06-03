@@ -23,12 +23,25 @@ public class TransactionController {
   @GetMapping("/transaction")
   public ResponseEntity<List<Transaction>> findByUser(
           @RequestParam Long userId,
-          @RequestParam(value = "limit", defaultValue = "1000") int limit,
-          @RequestParam(value = "offset", defaultValue = "1") int offset
+          @RequestParam(required = false) String type ,
+          @RequestParam(required = false) String wallet,
+          @RequestParam(defaultValue = "100") int limit,
+          @RequestParam(defaultValue = "0") int offset
   )
       throws ResourceNotFoundException {
     Pageable pageable = PageRequest.of(offset, limit);
-    List<Transaction> transactions = transactionService.findByUser(userId, pageable);
+    List<Transaction> transactions;
+    
+    if (type != null && wallet != null) {
+      transactions = transactionService.findByUserAndTypeAndWallet(userId, type, wallet, pageable);
+    } else if (type != null) {
+      transactions = transactionService.findByUserAndType(userId, type, pageable);
+    } else if (wallet != null) {
+      transactions = transactionService.findByUserAndWallet(userId, wallet, pageable);
+    } else {
+      transactions = transactionService.findByUser(userId, pageable);
+    }
+
     return ResponseEntity.ok().body(transactions);
   }
 

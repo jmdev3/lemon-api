@@ -10,4 +10,7 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     public List<Transaction> findByUser(Long userId, Pageable pageable);
+    public List<Transaction> findByUserAndType(Long userId, String type, Pageable pageable);
+    public List<Transaction> findByUserAndWallet(Long userId, String wallet, Pageable pageable);
+    public List<Transaction> findByUserAndTypeAndWallet(Long userId, String type, String wallet, Pageable pageable);
 }
